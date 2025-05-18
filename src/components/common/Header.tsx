@@ -104,7 +104,7 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
 
                         <Link to="/" className={`font-sans font-medium text-xl transition-colors flex items-center gap-1.5 ${getTextColorClass(isScrolled, shouldBeTransparent)}`}>
                             <Zap size={20} className={`${isScrolled || !shouldBeTransparent ? 'text-primary' : 'text-primary-light'}`} />
-                            <span className="tracking-tight">TechElectro</span>
+                            <span className="tracking-tight">Naswasoko</span>
                         </Link>
                     </div>
 
@@ -230,7 +230,7 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                         <div className="p-4 flex justify-between items-center border-b border-neutral-100">
                             <Link to="/" className="font-sans font-medium text-xl flex items-center gap-1.5">
                                 <Zap size={20} className="text-primary" />
-                                <span>TechElectro</span>
+                                <span>Naswasoko</span>
                             </Link>
                             <button
                                 onClick={toggleMenu}

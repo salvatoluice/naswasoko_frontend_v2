@@ -94,7 +94,7 @@ const OrderConfirmationPage = () => {
                                 <h3 className="font-medium text-sm">Estimated Delivery</h3>
                             </div>
                             <p className="font-semibold text-lg">{formatDate(estimatedDelivery)}</p>
-                            <p className="text-xs text-neutral-600">Delivery via TechElectro Premium Shipping</p>
+                            <p className="text-xs text-neutral-600">Delivery via Naswasoko Premium Shipping</p>
                         </div>
                     </div>
                 </div>

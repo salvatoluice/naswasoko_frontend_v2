@@ -132,7 +132,7 @@ const Footer = () => {
                         <div className="md:col-span-3 space-y-6">
                             <Link to="/" className="font-sans font-medium text-2xl flex items-center gap-1.5">
                                 <Zap size={24} className="text-primary-light" />
-                                <span>TechElectro</span>
+                                <span>Naswasoko</span>
                             </Link>
                             <p className="text-white/60 text-sm leading-relaxed">
                                 Your premier destination for cutting-edge electronics and modern home appliances. Offering the latest technology products with expert service and competitive prices.
@@ -274,8 +274,8 @@ const Footer = () => {
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Mail size={18} className="text-primary-light flex-shrink-0" />
-                                    <a href="mailto:info@techelectro.co.ke" className="text-white/60 hover:text-primary-light transition-colors">
-                                        info@techelectro.co.ke
+                                    <a href="mailto:info@naswasoko.co.ke" className="text-white/60 hover:text-primary-light transition-colors">
+                                        info@naswasoko.co.ke
                                     </a>
                                 </li>
                             </ul>
@@ -300,7 +300,7 @@ const Footer = () => {
 
                     {/* Bottom Section */}
                     <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-white/50">
-                        <p>© {new Date().getFullYear()} TechElectro. All rights reserved.</p>
+                        <p>© {new Date().getFullYear()} Naswasoko. All rights reserved.</p>
                         <div className="mt-4 md:mt-0 flex flex-wrap gap-6">
                             <Link to="/privacy" className="hover:text-primary-light transition-colors">Privacy Policy</Link>
                             <Link to="/terms" className="hover:text-primary-light transition-colors">Terms of Service</Link>
