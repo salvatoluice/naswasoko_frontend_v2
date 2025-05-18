@@ -25,6 +25,7 @@ const AboutPage = lazyLoad(() => import('./pages/Aboutpage'));
 const ContactPage = lazyLoad(() => import('./pages/contactPage'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
 const WishlistPage = lazyLoad(() => import('./pages/WishlistPage'));
+const OrderDetails = lazyLoad(() => import('./pages/OrderDetails'));
 
 const Login = lazyLoad(() => import('./pages/Login'));
 const Register = lazyLoad(() => import('./pages/Register'));
@@ -61,6 +62,7 @@ function App() {
                 <Route path="search" element={<SearchPage />} />
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="order-confirmation" element={<OrderConfirmationPage />} />
+                <Route path="orders/:id" element={<OrderDetails />} />
                 <Route path="categories" element={<CategoriesPage />} />
                 <Route path="wishlist" element={<WishlistPage />} />
                 <Route path="about" element={<AboutPage />} />
