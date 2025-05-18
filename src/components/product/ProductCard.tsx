@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingBag, Eye, Star } from 'lucide-react';
 import type { Product } from '../../types/product';
 import { useCart } from '../../hooks/useCart';
@@ -10,11 +10,18 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, featured = false }: ProductCardProps) => {
+    // Ensure product exists to prevent TypeError
+    if (!product || !product.id) {
+        console.error("ProductCard received invalid product data:", product);
+        return <div className="bg-white rounded-xl p-4 text-center">Product data unavailable</div>;
+    }
+
     const [isHovered, setIsHovered] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [activeImage, setActiveImage] = useState(0);
     const { addToCart } = useCart();
     const cardRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -31,7 +38,7 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
             price: product.price,
             discountPrice: product.discountPrice,
             quantity: 1,
-            image: product.images[0]
+            image: product.images && product.images.length > 0 ? product.images[0] : ''
         });
     };
 
@@ -46,6 +53,10 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
         return Math.round(((product.price - product.discountPrice) / product.price) * 100);
     };
 
+    // Safety check for product images
+    const images = product.images && product.images.length > 0 ? product.images : [''];
+    const hasMultipleImages = images.length > 1;
+
     if (featured) {
         return (
             <Link to={`/products/${product.id}`}>
@@ -58,12 +69,12 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                     <div className="flex flex-col md:flex-row h-full">
                         <div className="md:w-full relative bg-neutral-100 overflow-hidden">
                             <div className="aspect-video md:aspect-auto md:h-full">
-                                {product.images.length > 1 ? (
+                                {hasMultipleImages ? (
                                     <>
-                                        {product.images.map((image, index) => (
+                                        {images.map((image, index) => (
                                             <img
                                                 key={index}
-                                                src={image}
+                                                src={image || '/placeholder-image.png'}
                                                 alt={`${product.name} - View ${index + 1}`}
                                                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${activeImage === index ? 'opacity-100' : 'opacity-0'
                                                     }`}
@@ -71,7 +82,7 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                                         ))}
 
                                         <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-10">
-                                            {product.images.map((_, index) => (
+                                            {images.map((_, index) => (
                                                 <button
                                                     key={index}
                                                     onClick={(e) => {
@@ -87,7 +98,7 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                                     </>
                                 ) : (
                                     <img
-                                        src={product.images[0]}
+                                        src={images[0] || '/placeholder-image.png'}
                                         alt={product.name}
                                         className="w-full h-full object-cover"
                                     />
@@ -115,20 +126,21 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
     }
 
     return (
-        <Link to={`/products/${product?.id}`}>
+        <div>
             <div
                 ref={cardRef}
+                onClick={() => navigate(`/products/${product.id}`)}
                 className="h-full bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-md border border-neutral-100 group relative"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
                 <div className="relative aspect-[3/4] bg-neutral-50 overflow-hidden">
-                    {product.images.length > 1 ? (
+                    {hasMultipleImages ? (
                         <>
-                            {product.images.map((image, index) => (
+                            {images.map((image, index) => (
                                 <img
                                     key={index}
-                                    src={image}
+                                    src={image || '/placeholder-image.png'}
                                     alt={`${product.name} - View ${index + 1}`}
                                     className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${activeImage === index ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
                                         }`}
@@ -137,7 +149,7 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
 
                             {isHovered && (
                                 <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 z-10">
-                                    {product.images.map((_, index) => (
+                                    {images.map((_, index) => (
                                         <button
                                             key={index}
                                             onClick={(e) => {
@@ -154,7 +166,7 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                         </>
                     ) : (
                         <img
-                            src={product.images[0]}
+                            src={images[0] || '/placeholder-image.png'}
                             alt={product.name}
                             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />
@@ -238,7 +250,7 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                     </div>
 
                     <p className="text-sm text-neutral-600 mb-2 line-clamp-1">
-                        {product.description.substring(0, 60)}
+                        {product.description ? product.description.substring(0, 60) : "No description available"}
                     </p>
 
                     <div className="flex items-baseline gap-2">
@@ -253,7 +265,7 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 

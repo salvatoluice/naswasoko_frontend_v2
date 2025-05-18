@@ -5,60 +5,14 @@ import { ArrowRight, Sparkles, TrendingUp, Award } from 'lucide-react';
 import ProductCard from '../product/ProductCard';
 
 const FeaturedProducts = () => {
-    const { featuredProducts, isLoading } = useProducts();
-    const [visibleProducts, setVisibleProducts] = useState<number[]>([]);
+    const { featuredProducts = [], isLoading } = useProducts();
+    const [isVisible, setIsVisible] = useState(true); // Start visible by default
     const sectionRef = useRef<HTMLDivElement>(null);
-    const observerRef = useRef<IntersectionObserver | null>(null);
 
+    // Make products visible immediately when they load
     useEffect(() => {
-        // console.log("Featured Products:", featuredProducts);
-    }, [featuredProducts]);
-
-    useEffect(() => {
-        if (isLoading) return;
-
-        const timeoutId = setTimeout(() => {
-            observerRef.current?.disconnect();
-
-            observerRef.current = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const productIndex = parseInt(entry.target.getAttribute('data-index') || '0');
-                        setVisibleProducts(prev => {
-                            if (prev.includes(productIndex)) return prev;
-                            return [...prev, productIndex];
-                        });
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.product-item').forEach(el => {
-                if (observerRef.current) observerRef.current.observe(el);
-            });
-
-            // Force visibility after a delay if intersection observer fails
-            const forceTimeout = setTimeout(() => {
-                if (visibleProducts.length === 0) {
-                    const indices = Array.from({ length: featuredProducts.length }, (_, i) => i);
-                    setVisibleProducts(indices);
-                }
-            }, 1000);
-
-            return () => clearTimeout(forceTimeout);
-        }, 500);
-
-        return () => {
-            clearTimeout(timeoutId);
-            observerRef.current?.disconnect();
-        };
-    }, [isLoading, featuredProducts]);
-
-    // Show products immediately in development
-    useEffect(() => {
-        if (import.meta.env.DEV) {
-            const indices = Array.from({ length: featuredProducts.length }, (_, i) => i);
-            setVisibleProducts(indices);
-        }
+        // Ensure visibility whenever products change
+        setIsVisible(true);
     }, [featuredProducts]);
 
     return (
@@ -80,7 +34,7 @@ const FeaturedProducts = () => {
                             Our <span className="italic text-primary">Featured</span> Products
                         </h2>
                         <p className="text-neutral-600 md:text-lg leading-relaxed">
-                            Discover our carefully curated collection of premium artisanal products, showcasing the exceptional craftsmanship and cultural heritage of Kenya.
+                            Discover our carefully curated collection of premium electronics and appliances, featuring cutting-edge technology and innovative design.
                         </p>
                     </div>
 
@@ -113,7 +67,7 @@ const FeaturedProducts = () => {
                     </div>
                 ) : (
                     <>
-                        {featuredProducts.length === 0 ? (
+                        {!featuredProducts || featuredProducts.length === 0 ? (
                             <div className="text-center py-12">
                                 <p className="text-neutral-600">No featured products found. Please check your data source.</p>
                             </div>
@@ -121,15 +75,10 @@ const FeaturedProducts = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
                                 {featuredProducts.slice(0, 4).map((product, index) => (
                                     <div
-                                        key={product.id}
-                                        className={`product-item transition-all duration-700 transform ${visibleProducts.includes(index)
-                                            ? 'translate-y-0 opacity-100'
-                                            : 'translate-y-12 opacity-0'
-                                            }`}
-                                        data-index={index}
-                                        style={{ transitionDelay: `${index * 150}ms` }}
+                                        key={product?.id || `product-${index}`}
+                                        className={`product-item ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                                     >
-                                        <ProductCard product={product} featured={index === 0} />
+                                        {product && <ProductCard product={product} featured={index === 0} />}
                                     </div>
                                 ))}
                             </div>

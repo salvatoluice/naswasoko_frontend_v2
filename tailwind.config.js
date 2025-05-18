@@ -1,4 +1,3 @@
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -13,9 +12,9 @@ export default {
       },
       colors: {
         primary: {
-          DEFAULT: '#15803d', // emerald-700
-          light: '#34d399', // emerald-400
-          dark: '#14532d', // emerald-900
+          DEFAULT: '#F59E0B',
+          light: '#FCD34D',
+          dark: '#D97706',
         }
       },
     },

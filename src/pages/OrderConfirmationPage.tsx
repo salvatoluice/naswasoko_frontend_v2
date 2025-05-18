@@ -191,9 +191,7 @@ const OrderConfirmationPage = () => {
                     </div>
                 </div>
 
-                {/* Shipping and Payment Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Shipping Information */}
                     <div className="bg-neutral-50 rounded-2xl p-5 border border-neutral-100">
                         <div className="flex items-center gap-2 mb-4">
                             <MapPin size={16} className="text-neutral-500" />
@@ -219,7 +217,6 @@ const OrderConfirmationPage = () => {
                         </div>
                     </div>
 
-                    {/* Payment Information */}
                     <div className="bg-neutral-50 rounded-2xl p-5 border border-neutral-100">
                         <div className="flex items-center gap-2 mb-4">
                             <CreditCard size={16} className="text-neutral-500" />
@@ -267,7 +264,6 @@ const OrderConfirmationPage = () => {
                     </div>
                 </div>
 
-                {/* Warranty and Support Information */}
                 <div className="bg-blue-50 rounded-2xl p-5 border border-blue-100">
                     <div className="flex items-center gap-2 mb-4">
                         <Shield size={18} className="text-blue-600" />
@@ -291,9 +287,7 @@ const OrderConfirmationPage = () => {
                     </div>
                 </div>
 
-                {/* Next Steps & Call to Action */}
                 <div className="space-y-4">
-                    {/* Note about electronics */}
                     <div className="flex items-start gap-3 text-sm text-neutral-600 bg-neutral-50 p-4 rounded-xl border border-neutral-100">
                         <AlertCircle size={16} className="text-amber-500 flex-shrink-0 mt-0.5" />
                         <p>For large appliances or TVs, our delivery team will contact you 24 hours in advance to confirm delivery details and any installation requirements.</p>
