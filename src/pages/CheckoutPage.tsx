@@ -4,7 +4,7 @@ import PaymentMethods from '../components/checkout/PaymentMethods';
 import OrderSummary from '../components/checkout/OrderSummary';
 import { useCart } from '../hooks/useCart';
 import { useCheckout } from '../hooks/useCheckout';
-import CheckoutForm from '../components/checkout/CheckoutFor';
+import CheckoutForm from '../components/checkout/CheckoutForm';
 
 const CheckoutPage = () => {
     const { cart } = useCart();
