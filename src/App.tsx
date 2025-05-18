@@ -12,6 +12,7 @@ const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage')
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const AboutPage = lazy(() => import('./pages/Aboutpage'));
 const ContactPage = lazy(() => import('./pages/contactPage'));
+const CategoriesPage = lazy(() => import('./pages/CategoriesPage'));
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center">
@@ -32,6 +33,7 @@ function App() {
             <Route path="search" element={<SearchPage />} />
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="order-confirmation" element={<OrderConfirmationPage />} />
+            <Route path="categories" element={<CategoriesPage />} />
 
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
