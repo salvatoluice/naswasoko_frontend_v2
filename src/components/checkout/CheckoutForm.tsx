@@ -224,7 +224,6 @@ const CheckoutForm = () => {
                         </div>
                     </div>
 
-                    {/* Address Section */}
                     <div className="space-y-5">
                         <div className="flex items-center gap-2 pb-2 border-b border-neutral-100">
                             <MapPin size={16} className="text-neutral-500" />
@@ -332,7 +331,6 @@ const CheckoutForm = () => {
                         </div>
                     </div>
 
-                    {/* Additional electronics-specific options */}
                     <div className="pt-2">
                         <div className="flex items-center mb-5">
                             <input
