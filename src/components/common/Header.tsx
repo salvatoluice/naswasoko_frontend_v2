@@ -1,5 +1,3 @@
-// src/components/common/Header.tsx
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Search, User, Menu, X, Heart, ChevronDown, Bell, Sun } from 'lucide-react';
@@ -7,9 +5,10 @@ import { useCart } from '../../hooks/useCart';
 
 interface HeaderProps {
     onOpenCart: () => void;
+    transparentInitial?: boolean;
 }
 
-const Header = ({ onOpenCart }: HeaderProps) => {
+const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [searchExpanded, setSearchExpanded] = useState(false);
@@ -17,7 +16,10 @@ const Header = ({ onOpenCart }: HeaderProps) => {
     const { totalItems } = useCart();
     const location = useLocation();
 
-    // Handle scroll event to change header style
+    const isHomePage = location.pathname === '/';
+
+    const shouldBeTransparent = transparentInitial || isHomePage;
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -27,7 +29,6 @@ const Header = ({ onOpenCart }: HeaderProps) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close mobile menu when route changes
     useEffect(() => {
         setIsMenuOpen(false);
     }, [location]);
@@ -37,31 +38,52 @@ const Header = ({ onOpenCart }: HeaderProps) => {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            // Redirect to search page with query
             window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
         }
     };
 
+    const getTextColorClass = (scrolled: boolean, transparent: boolean) => {
+        if (scrolled || !transparent) {
+            return 'text-neutral-700';
+        }
+        return 'text-white';
+    };
+
+    const getHoverBgClass = (scrolled: boolean, transparent: boolean) => {
+        if (scrolled || !transparent) {
+            return 'hover:bg-neutral-100';
+        }
+        return 'hover:bg-white/10';
+    };
+
+    // Get background class 
+    const getBgClass = (scrolled: boolean, transparent: boolean) => {
+        if (scrolled) {
+            return 'bg-white/95 backdrop-blur-md shadow-sm';
+        }
+        if (!transparent) {
+            return 'bg-white shadow-sm'; // Solid white when not transparent
+        }
+        return 'bg-transparent'; // Only transparent when explicitly needed
+    };
+
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                ? 'bg-white/95 backdrop-blur-md shadow-sm py-2'
-                : 'bg-transparent py-4'
-            }`}>
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${getBgClass(isScrolled, shouldBeTransparent)} ${isScrolled ? 'py-2' : 'py-4'}`}
+        >
             <div className="container-custom">
                 <div className="flex items-center justify-between">
                     {/* Logo & Mobile Menu Button */}
                     <div className="flex items-center space-x-4">
                         <button
                             onClick={toggleMenu}
-                            className={`p-2 rounded-full md:hidden transition-colors ${isScrolled ? 'hover:bg-neutral-100' : 'hover:bg-white/20'
-                                }`}
+                            className={`p-2 rounded-full md:hidden transition-colors ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
                             aria-label="Toggle menu"
                         >
-                            <Menu size={22} className={isScrolled ? 'text-neutral-900' : 'text-white'} />
+                            <Menu size={22} className={getTextColorClass(isScrolled, shouldBeTransparent)} />
                         </button>
 
-                        <Link to="/" className={`font-serif font-medium text-xl tracking-tight transition-colors ${isScrolled ? 'text-neutral-900' : 'text-white'
-                            }`}>
+                        <Link to="/" className={`font-serif font-medium text-xl tracking-tight transition-colors ${getTextColorClass(isScrolled, shouldBeTransparent)}`}
+                        >
                             <span className="tracking-wider">N</span>aswasoko
                         </Link>
                     </div>
@@ -87,10 +109,7 @@ const Header = ({ onOpenCart }: HeaderProps) => {
                             <div key={item.name} className="relative group">
                                 <Link
                                     to={item.path}
-                                    className={`px-3 py-2 rounded-lg hover:bg-white/10 flex items-center transition-colors ${isScrolled
-                                            ? 'text-neutral-800 hover:bg-neutral-100'
-                                            : 'text-white hover:bg-white/10'
-                                        } ${location.pathname === item.path ? 'font-medium' : ''}`}
+                                    className={`px-3 py-2 rounded-lg flex items-center transition-colors ${getTextColorClass(isScrolled, shouldBeTransparent)} ${getHoverBgClass(isScrolled, shouldBeTransparent)} ${location.pathname === item.path ? 'font-medium' : ''}`}
                                 >
                                     {item.name}
                                     {item.dropdown && <ChevronDown size={16} className="ml-1" />}
@@ -124,40 +143,37 @@ const Header = ({ onOpenCart }: HeaderProps) => {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Search products..."
                                     className={`
-                    rounded-full transition-all duration-200 border focus:outline-none focus:ring-1 focus:ring-primary
-                    ${searchExpanded
+                                        rounded-full transition-all duration-200 border focus:outline-none focus:ring-1 focus:ring-primary
+                                        ${searchExpanded
                                             ? 'w-44 pl-10 pr-4 py-2 opacity-100 visible border-neutral-200'
                                             : 'w-0 opacity-0 invisible border-transparent'}
-                  `}
+                                    `}
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setSearchExpanded(!searchExpanded)}
-                                    className={`p-2 rounded-full absolute left-0 transition-colors ${isScrolled ? 'hover:bg-neutral-100' : 'hover:bg-white/10'
-                                        }`}
+                                    className={`p-2 rounded-full absolute left-0 transition-colors ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
                                     aria-label="Search"
                                 >
-                                    <Search size={20} className={isScrolled ? 'text-neutral-700' : 'text-white'} />
+                                    <Search size={20} className={getTextColorClass(isScrolled, shouldBeTransparent)} />
                                 </button>
                             </form>
                         </div>
 
                         <Link
                             to="/account"
-                            className={`p-2 rounded-full transition-colors ${isScrolled ? 'hover:bg-neutral-100' : 'hover:bg-white/10'
-                                }`}
+                            className={`p-2 rounded-full transition-colors ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
                             aria-label="Account"
                         >
-                            <User size={20} className={isScrolled ? 'text-neutral-700' : 'text-white'} />
+                            <User size={20} className={getTextColorClass(isScrolled, shouldBeTransparent)} />
                         </Link>
 
                         <Link
                             to="/wishlist"
-                            className={`p-2 rounded-full transition-colors relative ${isScrolled ? 'hover:bg-neutral-100' : 'hover:bg-white/10'
-                                }`}
+                            className={`p-2 rounded-full transition-colors relative ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
                             aria-label="Wishlist"
                         >
-                            <Heart size={20} className={isScrolled ? 'text-neutral-700' : 'text-white'} />
+                            <Heart size={20} className={getTextColorClass(isScrolled, shouldBeTransparent)} />
                             <span className="absolute -top-1 -right-1 bg-primary text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
                                 3
                             </span>
@@ -165,11 +181,10 @@ const Header = ({ onOpenCart }: HeaderProps) => {
 
                         <button
                             onClick={onOpenCart}
-                            className={`p-2 rounded-full transition-colors relative ${isScrolled ? 'hover:bg-neutral-100' : 'hover:bg-white/10'
-                                }`}
+                            className={`p-2 rounded-full transition-colors relative ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
                             aria-label="Shopping cart"
                         >
-                            <ShoppingBag size={20} className={isScrolled ? 'text-neutral-700' : 'text-white'} />
+                            <ShoppingBag size={20} className={getTextColorClass(isScrolled, shouldBeTransparent)} />
                             {totalItems > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-primary text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
                                     {totalItems}
@@ -180,10 +195,7 @@ const Header = ({ onOpenCart }: HeaderProps) => {
                         {/* Currency/Language selector (simplified) */}
                         <div className="hidden md:block relative group">
                             <button
-                                className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${isScrolled
-                                        ? 'text-neutral-800 hover:bg-neutral-100'
-                                        : 'text-white hover:bg-white/10'
-                                    }`}
+                                className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${getTextColorClass(isScrolled, shouldBeTransparent)} ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
                             >
                                 <span>KSh</span>
                                 <ChevronDown size={16} />
