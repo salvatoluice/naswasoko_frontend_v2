@@ -18,6 +18,7 @@ export interface Product {
     name: string;
     slug: string;
     image?: string;
+    description?: string;
   };
   
   export interface ProductFilter {
