@@ -1,28 +1,50 @@
 // src/App.tsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/common/Layout';
-import HomePage from './pages/HomePage';
-import ProductsPage from './pages/ProductsPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import SearchPage from './pages/SearchPage';
-import CheckoutPage from './pages/CheckoutPage';
-import NotFoundPage from './pages/NotFoundPage';
 
-const App = () => {
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import Layout from './components/common/Layout';
+
+// Lazy-loaded pages for better performance
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ProductsPage = lazy(() => import('./pages/ProductPage'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
+const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+
+// Loading fallback
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
+
+function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="products" element={<ProductsPage />} />
-          <Route path="products/:id" element={<ProductDetailPage />} />
-          <Route path="search" element={<SearchPage />} />
-          <Route path="checkout" element={<CheckoutPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="products/:id" element={<ProductDetailPage />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route path="checkout" element={<CheckoutPage />} />
+            <Route path="order-confirmation" element={<OrderConfirmationPage />} />
+
+            {/* Add additional routes as needed */}
+            <Route path="about" element={<div className="container-custom py-16 text-center">About page content goes here</div>} />
+            <Route path="contact" element={<div className="container-custom py-16 text-center">Contact page content goes here</div>} />
+
+            {/* 404 page */}
+            <Route path="404" element={<NotFoundPage />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
-};
+}
 
 export default App;
