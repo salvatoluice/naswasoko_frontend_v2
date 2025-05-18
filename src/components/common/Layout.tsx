@@ -7,12 +7,12 @@ import CartDrawer from '../cart/CartDrawer';
 const Layout = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const location = useLocation();
+    const isHomePage = location.pathname === '/';
 
     const [key, setKey] = useState(0);
 
     useEffect(() => {
         setKey(prev => prev + 1);
-
         setIsCartOpen(false);
     }, [location]);
 
@@ -27,7 +27,7 @@ const Layout = () => {
     return (
         <div className="flex flex-col min-h-screen">
             <Header onOpenCart={handleOpenCart} />
-            <main className="flex-grow" key={key}>
+            <main className={`flex-grow ${isHomePage ? '' : 'mt-12'}`} key={key}>
                 <Outlet />
             </main>
             <Footer />

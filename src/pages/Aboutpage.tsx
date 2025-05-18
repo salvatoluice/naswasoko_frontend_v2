@@ -1,5 +1,3 @@
-// src/pages/AboutPage.tsx
-
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -15,7 +13,6 @@ const AboutPage = () => {
     const [visibleSections, setVisibleSections] = useState<string[]>([]);
     const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-    // Company values
     const values = [
         {
             id: 'authenticity',

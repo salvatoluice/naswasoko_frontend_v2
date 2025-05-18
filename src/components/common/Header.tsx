@@ -134,7 +134,7 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                                     { name: 'Energy Efficient', path: '/products?tag=energy-efficient' },
                                 ]
                             },
-                            { name: 'Support', path: '/support' },
+                            { name: 'Support', path: '/contact' },
                         ].map((item) => (
                             <div key={item.name} className="relative group">
                                 <Link

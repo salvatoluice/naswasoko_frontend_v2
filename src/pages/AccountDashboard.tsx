@@ -1,5 +1,3 @@
-// src/pages/AccountDashboard.tsx
-
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {
@@ -22,7 +20,6 @@ import { useAuth } from '../hooks/useAuth';
 import { useWishlist } from '../hooks/useWishlist';
 import { useCart } from '../hooks/useCart';
 
-// Sample order type
 interface Order {
     id: string;
     orderNumber: string;
@@ -45,10 +42,8 @@ const AccountDashboard = () => {
     const { cart } = useCart();
     const navigate = useNavigate();
 
-    // Active tab state
     const [activeTab, setActiveTab] = useState('dashboard');
 
-    // Sample orders
     const [orders, setOrders] = useState<Order[]>([
         {
             id: 'ord1',
