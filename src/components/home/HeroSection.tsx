@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star } from 'lucide-react';
+import { ChevronRight, Sparkles, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const HeroSection = () => {
@@ -7,17 +7,17 @@ const HeroSection = () => {
     const [activeImage, setActiveImage] = useState(0);
 
     const heroImages = [
-        "https://images.unsplash.com/photo-1556228578-0d85b1a4d571",
-        "https://images.unsplash.com/photo-1558002038-1055907df827",
-        "https://images.unsplash.com/photo-1556228578-0d85b1a4d571",
-        "https://images.unsplash.com/photo-1613665813446-82a78c468a1d"
+        "https://images.unsplash.com/photo-1556228720-195a672e8a03", 
+        "https://images.unsplash.com/photo-1551644158-5ce86b943223",
+        "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6", 
+        "https://images.unsplash.com/photo-1588599837624-01b15123b956"
     ];
 
-    const captions = [
-        "Premium Kitchen Electronics",
-        "Smart Home Innovation",
-        "Authentic Kenyan Craftsmanship",
-        "Sustainable Solar Solutions"
+    const categories = [
+        "Smart Home",
+        "Kitchen Appliances",
+        "Entertainment",
+        "Premium Audio"
     ];
 
     useEffect(() => {
@@ -25,88 +25,117 @@ const HeroSection = () => {
 
         const interval = setInterval(() => {
             setActiveImage((prev) => (prev + 1) % heroImages.length);
-        }, 6000);
+        }, 5000);
 
         return () => clearInterval(interval);
     }, [heroImages.length]);
 
     return (
-        <div className="relative overflow-hidden">
-            <div className="absolute -top-24 -left-24 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="relative overflow-hidden bg-neutral-950">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-violet-600/20 to-blue-500/20 rounded-full blur-3xl opacity-30"></div>
+            <div className="absolute -bottom-48 right-1/4 w-96 h-96 bg-gradient-to-l from-primary/20 to-cyan-400/20 rounded-full blur-3xl opacity-40"></div>
+            <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
-            <div className="h-[85vh] bg-neutral-900 flex items-center justify-center relative">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDUgTCAyMCA1IE0gNSAwIEwgNSAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDIpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
+
+            <div className="h-[90vh] flex items-center justify-center relative">
                 {heroImages.map((src, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 transition-opacity duration-1000 ${activeImage === index ? 'opacity-100' : 'opacity-0'
+                        className={`absolute inset-0 transition-all duration-1000 ease-in-out ${activeImage === index
+                                ? 'opacity-70 scale-100'
+                                : 'opacity-0 scale-105'
                             }`}
                     >
                         <img
                             src={src}
-                            alt={captions[index]}
+                            alt={categories[index]}
                             className="w-full h-full object-cover"
                         />
                     </div>
                 ))}
 
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-900/70 to-neutral-950/90"></div>
 
-                <div className="container-custom relative z-10 px-4 md:px-8">
+                <div className="container-custom relative z-10 px-6 md:px-8">
                     <div className="max-w-3xl">
-                        <div className="flex items-center space-x-2 mb-4">
-                            <span className="bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-widest px-3 py-1 rounded-full">
-                                {captions[activeImage]}
+                        <div
+                            className={`inline-flex items-center gap-2 py-2 pl-3 pr-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg mb-6 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+                                }`}
+                        >
+                            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/80 backdrop-blur-md">
+                                <Sparkles size={12} className="text-white" />
                             </span>
-                            <div className="flex items-center text-yellow-400 text-sm">
-                                <Star size={14} fill="currentColor" />
-                                <Star size={14} fill="currentColor" />
-                                <Star size={14} fill="currentColor" />
-                                <Star size={14} fill="currentColor" />
-                                <Star size={14} fill="currentColor" />
-                                <span className="ml-1 text-white/80">5.0 (127 reviews)</span>
-                            </div>
+                            <span className="text-white/90 text-sm font-medium tracking-wide">
+                                {categories[activeImage]}
+                            </span>
                         </div>
 
-                        <h1 className={`text-5xl md:text-7xl font-serif font-light text-white mb-6 leading-tight transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                            }`}>
-                            <span className="block">Kenyan Artistry &</span>
-                            <span className="block italic text-primary-light">Modern Electronics</span>
+                        <h1
+                            className={`text-5xl md:text-7xl font-sans font-light text-white mb-8 leading-tight tracking-tight transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                                }`}
+                        >
+                            <span className="block font-extralight">Premium</span>
+                            <span className="block font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary-light via-cyan-400 to-blue-500">
+                                Electronics & Appliances
+                            </span>
                         </h1>
 
-                        <p className={`text-lg md:text-xl text-white/80 mb-8 max-w-xl transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                            }`}>
-                            Discover handcrafted treasures and premium household electronics that blend tradition with innovation, curated for the modern Kenyan home.
+                        <p
+                            className={`text-lg md:text-xl text-white/70 mb-10 max-w-xl leading-relaxed transition-all duration-1000 delay-200 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                                }`}
+                        >
+                            Experience the future of home technology with our curated selection of innovative electronics and smart appliances for the modern Kenyan lifestyle.
                         </p>
 
-                        <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                            }`}>
+                        <div
+                            className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-400 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                                }`}
+                        >
                             <Link
                                 to="/products"
-                                className="group bg-white hover:bg-neutral-100 text-neutral-900 px-8 py-4 rounded-xl font-medium flex items-center justify-center sm:justify-start"
+                                className="group bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-medium flex items-center justify-center gap-2 shadow-lg shadow-primary/25 transition-all duration-300"
                             >
-                                <span>Explore Collection</span>
-                                <ArrowRight size={18} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+                                <Zap size={18} className="text-white" />
+                                <span>Explore Products</span>
+                                <ChevronRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <Link
-                                to="/products?category=electronics"
-                                className="border border-white/30 hover:border-white/80 backdrop-blur-sm bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-medium"
+                                to="/categories"
+                                className="backdrop-blur-md bg-white/10 hover:bg-white/15 border border-white/20 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300"
                             >
-                                Shop Electronics
+                                Browse Categories
                             </Link>
+                        </div>
+
+                        <div
+                            className={`mt-12 grid grid-cols-2 sm:grid-cols-4 gap-2 transition-all duration-1000 delay-600 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                                }`}
+                        >
+                            {['TVs & Audio', 'Kitchen', 'Smart Home', 'Computing'].map((category, index) => (
+                                <Link
+                                    key={index}
+                                    to={`/category/${category.toLowerCase().replace(' & ', '-').replace(' ', '-')}`}
+                                    className="flex items-center gap-2 py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 transition-all duration-300"
+                                >
+                                    <span className="text-white/80 text-sm font-medium">{category}</span>
+                                    <ChevronRight size={14} className="text-white/60" />
+                                </Link>
+                            ))}
                         </div>
                     </div>
                 </div>
 
-                {/* Image indicators */}
-                <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-10">
+                <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-10">
                     {heroImages.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => setActiveImage(index)}
-                            className={`w-12 h-1 rounded-full transition-all ${activeImage === index ? 'bg-white' : 'bg-white/30'
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${activeImage === index
+                                    ? 'bg-white w-8'
+                                    : 'bg-white/30'
                                 }`}
-                            aria-label={`View ${captions[index]}`}
+                            aria-label={`View ${categories[index]}`}
                         />
                     ))}
                 </div>
