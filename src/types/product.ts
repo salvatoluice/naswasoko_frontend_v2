@@ -1,4 +1,5 @@
 // src/types/product.ts
+
 export interface Product {
     id: string;
     name: string;
@@ -12,18 +13,18 @@ export interface Product {
     inStock: boolean;
   }
   
-  // src/types/cart.ts
-  export interface CartItem {
+  export type ProductCategory = {
     id: string;
-    productId: string;
     name: string;
-    price: number;
-    quantity: number;
-    image: string;
+    slug: string;
+    image?: string;
+  };
+  
+  export interface ProductFilter {
+    categories?: string[];
+    priceRange?: [number, number];
+    tags?: string[];
+    sort?: 'price_asc' | 'price_desc' | 'newest' | 'popular';
+    search?: string;
   }
   
-  export interface Cart {
-    items: CartItem[];
-    subtotal: number;
-    total: number;
-  }
