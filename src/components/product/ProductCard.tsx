@@ -20,7 +20,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
         e.preventDefault();
         e.stopPropagation();
 
-        // Add subtle animation to the card when adding to cart
         cardRef.current?.classList.add('scale-95');
         setTimeout(() => {
             cardRef.current?.classList.remove('scale-95');
@@ -47,7 +46,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
         return Math.round(((product.price - product.discountPrice) / product.price) * 100);
     };
 
-    // Render different card styles for featured products
     if (featured) {
         return (
             <Link to={`/products/${product.id}`}>
@@ -57,52 +55,51 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    <div className="grid grid-cols-3 h-full">
-                        <div className="col-span-2 aspect-[4/3] relative bg-neutral-100 overflow-hidden">
-                            {product.images.length > 1 ? (
-                                <>
-                                    {product.images.map((image, index) => (
-                                        <img
-                                            key={index}
-                                            src={image}
-                                            alt={`${product.name} - View ${index + 1}`}
-                                            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${activeImage === index ? 'opacity-100' : 'opacity-0'
-                                                }`}
-                                        />
-                                    ))}
-
-                                    {/* Small image selector dots */}
-                                    <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-10">
-                                        {product.images.map((_, index) => (
-                                            <button
+                    <div className="flex flex-col md:flex-row h-full">
+                        <div className="md:w-full relative bg-neutral-100 overflow-hidden">
+                            <div className="aspect-video md:aspect-auto md:h-full">
+                                {product.images.length > 1 ? (
+                                    <>
+                                        {product.images.map((image, index) => (
+                                            <img
                                                 key={index}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    setActiveImage(index);
-                                                }}
-                                                className={`w-2 h-2 rounded-full transition-all ${activeImage === index ? 'bg-white w-6' : 'bg-white/60'
+                                                src={image}
+                                                alt={`${product.name} - View ${index + 1}`}
+                                                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${activeImage === index ? 'opacity-100' : 'opacity-0'
                                                     }`}
-                                                aria-label={`View image ${index + 1}`}
                                             />
                                         ))}
-                                    </div>
-                                </>
-                            ) : (
-                                <img
-                                    src={product.images[0]}
-                                    alt={product.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            )}
 
-                            {/* Badge */}
+                                        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-10">
+                                            {product.images.map((_, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setActiveImage(index);
+                                                    }}
+                                                    className={`w-2 h-2 rounded-full transition-all ${activeImage === index ? 'bg-white w-6' : 'bg-white/60'
+                                                        }`}
+                                                    aria-label={`View image ${index + 1}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <img
+                                        src={product.images[0]}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                )}
+                            </div>
+
                             <div className="absolute top-3 left-3 z-10">
                                 <span className="inline-block bg-white py-1 px-3 rounded-full text-xs uppercase tracking-wider font-medium shadow-sm">
                                     Featured
                                 </span>
                             </div>
 
-                            {/* Discount badge */}
                             {product.discountPrice && (
                                 <div className="absolute top-3 right-3 z-10">
                                     <span className="inline-block bg-primary text-white py-1 px-3 rounded-full text-xs font-medium shadow-sm">
@@ -111,74 +108,14 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                                 </div>
                             )}
                         </div>
-
-                        <div className="col-span-1 p-6 flex flex-col justify-between">
-                            {/* Product info */}
-                            <div>
-                                <div className="flex items-center justify-between mb-1">
-                                    <div className="flex gap-0.5">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <Star
-                                                key={star}
-                                                size={12}
-                                                className={star <= 4 ? "text-yellow-400 fill-yellow-400" : "text-neutral-300"}
-                                            />
-                                        ))}
-                                    </div>
-                                    <button
-                                        onClick={toggleFavorite}
-                                        aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-                                        className="p-1 hover:bg-neutral-100 rounded-full transition-colors"
-                                    >
-                                        <Heart
-                                            size={16}
-                                            className={isFavorite ? "fill-red-500 text-red-500" : "text-neutral-400"}
-                                        />
-                                    </button>
-                                </div>
-
-                                <h3 className="font-medium text-base mb-1 line-clamp-1">{product.name}</h3>
-
-                                <p className="text-neutral-600 text-xs line-clamp-3 mb-3">{product.description}</p>
-
-                                <div className="space-y-1 mb-3">
-                                    {product.tags.slice(0, 2).map((tag) => (
-                                        <span key={tag} className="inline-block mr-1 text-xs text-neutral-500">#{tag}</span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Price and CTA */}
-                            <div>
-                                <div className="mb-3">
-                                    {product.discountPrice ? (
-                                        <div className="space-y-1">
-                                            <span className="block text-primary font-medium">KSh {product.discountPrice.toLocaleString()}</span>
-                                            <span className="block text-neutral-500 text-xs line-through">KSh {product.price.toLocaleString()}</span>
-                                        </div>
-                                    ) : (
-                                        <span className="font-medium">KSh {product.price.toLocaleString()}</span>
-                                    )}
-                                </div>
-
-                                <button
-                                    onClick={handleAddToCart}
-                                    className="w-full flex items-center justify-center gap-1 bg-primary/10 hover:bg-primary/20 text-primary text-sm py-2 rounded-lg transition-colors"
-                                >
-                                    <ShoppingBag size={14} />
-                                    <span>Add to Cart</span>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </Link>
         );
     }
 
-    // Regular product card
     return (
-        <Link to={`/products/${product.id}`}>
+        <Link to={`/products/${product?.id}`}>
             <div
                 ref={cardRef}
                 className="h-full bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-md border border-neutral-100 group relative"
@@ -186,7 +123,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                 onMouseLeave={() => setIsHovered(false)}
             >
                 <div className="relative aspect-[3/4] bg-neutral-50 overflow-hidden">
-                    {/* Image gallery */}
                     {product.images.length > 1 ? (
                         <>
                             {product.images.map((image, index) => (
@@ -199,7 +135,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                                 />
                             ))}
 
-                            {/* Image navigation */}
                             {isHovered && (
                                 <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 z-10">
                                     {product.images.map((_, index) => (
@@ -225,7 +160,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                         />
                     )}
 
-                    {/* Quick action buttons */}
                     <div
                         className={`absolute top-3 right-3 flex flex-col space-y-2 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
                             }`}
@@ -259,7 +193,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                         </Link>
                     </div>
 
-                    {/* Product badges */}
                     <div className="absolute top-3 left-3 flex flex-col space-y-2">
                         {product.discountPrice && (
                             <span className="inline-block bg-primary text-white px-2 py-1 text-xs font-medium rounded">
@@ -280,7 +213,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                         )}
                     </div>
 
-                    {/* Bottom action bar */}
                     <div
                         className={`absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent transition-transform duration-300 ${isHovered ? 'translate-y-0' : 'translate-y-full'
                             }`}
@@ -295,7 +227,6 @@ const ProductCard = ({ product, featured = false }: ProductCardProps) => {
                     </div>
                 </div>
 
-                {/* Product details */}
                 <div className="p-4">
                     <div className="flex items-center justify-between mb-1">
                         <h3 className="font-medium text-neutral-900 line-clamp-1">{product.name}</h3>

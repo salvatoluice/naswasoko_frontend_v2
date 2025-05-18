@@ -7,29 +7,34 @@ const HeroSection = () => {
     const [activeImage, setActiveImage] = useState(0);
 
     const heroImages = [
-        "/api/placeholder/1200/800", // Replace with actual high-quality images
-        "/api/placeholder/1200/800",
-        "/api/placeholder/1200/800"
+        "https://images.unsplash.com/photo-1556228578-0d85b1a4d571",
+        "https://images.unsplash.com/photo-1558002038-1055907df827",
+        "https://images.unsplash.com/photo-1556228578-0d85b1a4d571",
+        "https://images.unsplash.com/photo-1613665813446-82a78c468a1d"
+    ];
+
+    const captions = [
+        "Premium Kitchen Electronics",
+        "Smart Home Innovation",
+        "Authentic Kenyan Craftsmanship",
+        "Sustainable Solar Solutions"
     ];
 
     useEffect(() => {
         setIsVisible(true);
 
-        // Auto-rotate hero images
         const interval = setInterval(() => {
             setActiveImage((prev) => (prev + 1) % heroImages.length);
         }, 6000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [heroImages.length]);
 
     return (
         <div className="relative overflow-hidden">
-            {/* Decorative elements */}
             <div className="absolute -top-24 -left-24 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
             <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
 
-            {/* Hero image carousel */}
             <div className="h-[85vh] bg-neutral-900 flex items-center justify-center relative">
                 {heroImages.map((src, index) => (
                     <div
@@ -39,21 +44,19 @@ const HeroSection = () => {
                     >
                         <img
                             src={src}
-                            alt={`Naswasoko Featured Collection ${index + 1}`}
+                            alt={captions[index]}
                             className="w-full h-full object-cover"
                         />
                     </div>
                 ))}
 
-                {/* Overlay with gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
 
-                {/* Content */}
                 <div className="container-custom relative z-10 px-4 md:px-8">
                     <div className="max-w-3xl">
                         <div className="flex items-center space-x-2 mb-4">
                             <span className="bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-widest px-3 py-1 rounded-full">
-                                Artisan Collection
+                                {captions[activeImage]}
                             </span>
                             <div className="flex items-center text-yellow-400 text-sm">
                                 <Star size={14} fill="currentColor" />
@@ -67,13 +70,13 @@ const HeroSection = () => {
 
                         <h1 className={`text-5xl md:text-7xl font-serif font-light text-white mb-6 leading-tight transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                             }`}>
-                            <span className="block">Kenyan Artistry</span>
-                            <span className="block italic text-primary-light">Reimagined</span>
+                            <span className="block">Kenyan Artistry &</span>
+                            <span className="block italic text-primary-light">Modern Electronics</span>
                         </h1>
 
                         <p className={`text-lg md:text-xl text-white/80 mb-8 max-w-xl transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                             }`}>
-                            Discover handcrafted treasures that blend centuries of tradition with bold, contemporary design sensibilities.
+                            Discover handcrafted treasures and premium household electronics that blend tradition with innovation, curated for the modern Kenyan home.
                         </p>
 
                         <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
@@ -86,10 +89,10 @@ const HeroSection = () => {
                                 <ArrowRight size={18} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <Link
-                                to="/about"
+                                to="/products?category=electronics"
                                 className="border border-white/30 hover:border-white/80 backdrop-blur-sm bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-medium"
                             >
-                                Our Story
+                                Shop Electronics
                             </Link>
                         </div>
                     </div>
@@ -103,7 +106,7 @@ const HeroSection = () => {
                             onClick={() => setActiveImage(index)}
                             className={`w-12 h-1 rounded-full transition-all ${activeImage === index ? 'bg-white' : 'bg-white/30'
                                 }`}
-                            aria-label={`View slide ${index + 1}`}
+                            aria-label={`View ${captions[index]}`}
                         />
                     ))}
                 </div>

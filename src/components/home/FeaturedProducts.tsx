@@ -10,16 +10,13 @@ const FeaturedProducts = () => {
     const sectionRef = useRef<HTMLDivElement>(null);
     const observerRef = useRef<IntersectionObserver | null>(null);
 
-    // Debug logging to check featured products
     useEffect(() => {
-        console.log("Featured Products:", featuredProducts);
+        // console.log("Featured Products:", featuredProducts);
     }, [featuredProducts]);
 
-    // Set up the observer AFTER the component has rendered
     useEffect(() => {
         if (isLoading) return;
 
-        // This timeout ensures DOM elements are available
         const timeoutId = setTimeout(() => {
             observerRef.current?.disconnect();
 
@@ -56,8 +53,9 @@ const FeaturedProducts = () => {
         };
     }, [isLoading, featuredProducts]);
 
+    // Show products immediately in development
     useEffect(() => {
-        if (import.meta.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
             const indices = Array.from({ length: featuredProducts.length }, (_, i) => i);
             setVisibleProducts(indices);
         }
@@ -65,6 +63,7 @@ const FeaturedProducts = () => {
 
     return (
         <section ref={sectionRef} className="py-24 bg-neutral-50 relative">
+            {/* Decorative elements */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent"></div>
             <div className="absolute -top-48 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>

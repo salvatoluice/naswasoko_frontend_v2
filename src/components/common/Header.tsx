@@ -56,24 +56,21 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
         return 'hover:bg-white/10';
     };
 
-    // Get background class 
     const getBgClass = (scrolled: boolean, transparent: boolean) => {
         if (scrolled) {
             return 'bg-white/95 backdrop-blur-md shadow-sm';
         }
         if (!transparent) {
-            return 'bg-white shadow-sm'; // Solid white when not transparent
+            return 'bg-white shadow-sm'; 
         }
-        return 'bg-transparent'; // Only transparent when explicitly needed
+        return 'bg-transparent'; 
     };
 
     return (
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${getBgClass(isScrolled, shouldBeTransparent)} ${isScrolled ? 'py-2' : 'py-4'}`}
         >
             <div className="container-custom">
-                <div className="flex items-center justify-between">
-                    {/* Logo & Mobile Menu Button */}
-                    <div className="flex items-center space-x-4">
+                <div className="flex items-center justify-between">                    <div className="flex items-center space-x-4">
                         <button
                             onClick={toggleMenu}
                             className={`p-2 rounded-full md:hidden transition-colors ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
@@ -88,7 +85,6 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                         </Link>
                     </div>
 
-                    {/* Desktop Navigation */}
                     <nav className="hidden md:flex space-x-1">
                         {[
                             { name: 'Home', path: '/' },
@@ -132,9 +128,7 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                         ))}
                     </nav>
 
-                    {/* Action Buttons */}
                     <div className="flex items-center space-x-1">
-                        {/* Search form */}
                         <div className="relative">
                             <form onSubmit={handleSearch} className="flex items-center">
                                 <input
@@ -191,33 +185,10 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                                 </span>
                             )}
                         </button>
-
-                        {/* Currency/Language selector (simplified) */}
-                        <div className="hidden md:block relative group">
-                            <button
-                                className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${getTextColorClass(isScrolled, shouldBeTransparent)} ${getHoverBgClass(isScrolled, shouldBeTransparent)}`}
-                            >
-                                <span>KSh</span>
-                                <ChevronDown size={16} />
-                            </button>
-
-                            <div className="absolute top-full right-0 mt-1 bg-white shadow-lg rounded-xl p-2 w-32 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-2 z-50">
-                                <button className="block w-full text-left px-3 py-2 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
-                                    KSh (KES)
-                                </button>
-                                <button className="block w-full text-left px-3 py-2 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
-                                    $ (USD)
-                                </button>
-                                <button className="block w-full text-left px-3 py-2 text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors">
-                                    € (EUR)
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             {isMenuOpen && (
                 <div className="fixed inset-0 z-50 bg-white/95 backdrop-blur-md">
                     <div className="container-custom h-full flex flex-col">
@@ -234,7 +205,6 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                             </button>
                         </div>
 
-                        {/* Search in mobile menu */}
                         <div className="py-4">
                             <form onSubmit={handleSearch} className="relative">
                                 <input
@@ -248,7 +218,6 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                             </form>
                         </div>
 
-                        {/* Mobile menu links */}
                         <nav className="flex-1 overflow-y-auto py-4">
                             <div className="space-y-0.5">
                                 {[
@@ -313,11 +282,6 @@ const Header = ({ onOpenCart, transparentInitial = false }: HeaderProps) => {
                                 <button className="p-3 rounded-full hover:bg-neutral-100">
                                     <Bell size={20} className="text-neutral-700" />
                                 </button>
-                                <div className="relative">
-                                    <button className="p-3 rounded-full hover:bg-neutral-100">
-                                        <span className="font-medium">KSh</span>
-                                    </button>
-                                </div>
                             </div>
                         </nav>
 
