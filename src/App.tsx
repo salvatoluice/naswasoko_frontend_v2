@@ -22,7 +22,7 @@ const CheckoutPage = lazyLoad(() => import('./pages/CheckoutPage'));
 const OrderConfirmationPage = lazyLoad(() => import('./pages/OrderConfirmationPage'));
 const NotFoundPage = lazyLoad(() => import('./pages/NotFoundPage'));
 const AboutPage = lazyLoad(() => import('./pages/Aboutpage'));
-const ContactPage = lazyLoad(() => import('./pages/contactPage'));
+const ContactPage = lazyLoad(() => import('./pages/CheckoutPage'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
 const WishlistPage = lazyLoad(() => import('./pages/WishlistPage'));
 const OrderDetails = lazyLoad(() => import('./pages/OrderDetails'));
