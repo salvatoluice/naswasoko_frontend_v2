@@ -3,7 +3,6 @@
 import type { Product } from "../types/product";
 
 export const products: Product[] = [
-  // Enhanced existing products with Unsplash images
   {
     id: '1',
     name: 'Handcrafted Leather Tote',
